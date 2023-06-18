@@ -50,14 +50,48 @@ const cardArray = [
 ];
 
 const grid = document.getElementById('grid');
+let cardsChosen = [];
+
+//shuffle the card
+cardArray.sort(() => 0.5 - Math.random());
+console.log(cardArray)
 
 function createBoard() {
-    cardArray.forEach(ele => {
+    for (let i = 0; i < cardArray.length; i++) {
         const card = document.createElement('img');
         card.setAttribute('src', 'images/blank.jpg');
-        card.setAttribute('data-id', cardArray.indexOf(card));
+        card.setAttribute('data-id', i);
         grid.appendChild(card);
+    }
+    grid.addEventListener('click', flipCard);
+}
+
+function flipCard(e) {
+    if (!e.target.matches('img')) return;
+
+    let cardId = e.target.getAttribute('data-id');
+    cardsChosen.push({
+        name: cardArray[cardId].name,
+        cardId: cardId,
     });
+    // change the image
+    e.target.setAttribute('src', cardArray[cardId].img);
+
+    // check the identical image
+    if (cardsChosen.length === 2) {
+        setTimeout(checkMatch, 500);
+    }
+}
+
+function checkMatch() {
+    const cards = document.querySelectorAll('img');
+    if (cardsChosen[0].name === cardsChosen[1].name) {
+        cards[cardsChosen[0].cardId].style.filter = 'brightness(50%)';
+        cards[cardsChosen[1].cardId].style.filter = 'brightness(50%)';
+        cards[cardsChosen[0].cardId].removeEventListener('click', flipCard);
+        cards[cardsChosen[1].cardId].removeEventListener('click', flipCard);
+    }
+    cardsChosen = [];
 }
 
 createBoard();
