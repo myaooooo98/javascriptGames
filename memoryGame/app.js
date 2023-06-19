@@ -50,11 +50,12 @@ const cardArray = [
 ];
 
 const grid = document.getElementById('grid');
+const resultDisplay = document.querySelector('#result');
 let cardsChosen = [];
+let score = 0;
 
 //shuffle the card
 cardArray.sort(() => 0.5 - Math.random());
-console.log(cardArray)
 
 function createBoard() {
     for (let i = 0; i < cardArray.length; i++) {
@@ -90,8 +91,19 @@ function checkMatch() {
         cards[cardsChosen[1].cardId].style.filter = 'brightness(50%)';
         cards[cardsChosen[0].cardId].removeEventListener('click', flipCard);
         cards[cardsChosen[1].cardId].removeEventListener('click', flipCard);
+        score++;
+    } else {
+        cards[cardsChosen[0].cardId].setAttribute('src', 'images/blank.jpg');
+        cards[cardsChosen[1].cardId].setAttribute('src', 'images/blank.jpg');
     }
+
+    resultDisplay.textContent = score;
     cardsChosen = [];
+
+    if (score === 6) {
+        console.log('You found all match!');
+        return;
+    }
 }
 
 createBoard();
