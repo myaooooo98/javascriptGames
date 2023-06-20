@@ -66,21 +66,19 @@ function createBoard() {
         const card = document.createElement('img');
         card.setAttribute('src', 'images/blank.jpg');
         card.setAttribute('data-id', i);
+        card.addEventListener('click', flipCard);
         grid.appendChild(card);
     }
-    grid.addEventListener('click', flipCard);
 }
 
 function flipCard(e) {
-    if (!e.target.matches('img')) return;
-
-    let cardId = e.target.getAttribute('data-id');
+    let cardId = this.getAttribute('data-id');
     cardsChosen.push({
         name: cardArray[cardId].name,
         cardId: cardId,
     });
     // change the image
-    e.target.setAttribute('src', cardArray[cardId].img);
+    this.setAttribute('src', cardArray[cardId].img);
 
     // check the identical image
     if (cardsChosen.length === 2) {
@@ -90,9 +88,13 @@ function flipCard(e) {
 
 function checkMatch() {
     const cards = document.querySelectorAll('img');
+    let soundEffect = new sound('./sound/correct.mp3');
+    let winnerSound = new sound('./sound/won.mp3');
+
     if (cardsChosen[0].name === cardsChosen[1].name) {
-        cards[cardsChosen[0].cardId].style.filter = 'brightness(50%)';
-        cards[cardsChosen[1].cardId].style.filter = 'brightness(50%)';
+        soundEffect.play();
+        cards[cardsChosen[0].cardId].style['animation-name'] = 'match';
+        cards[cardsChosen[1].cardId].style['animation-name'] = 'match';
         cards[cardsChosen[0].cardId].removeEventListener('click', flipCard);
         cards[cardsChosen[1].cardId].removeEventListener('click', flipCard);
         score++;
@@ -104,10 +106,28 @@ function checkMatch() {
     resultDisplay.textContent = score;
 
     if (score === 6) {
-        end.classList.toggle('show');
+        setTimeout(function() {
+            end.classList.toggle('show');
+            winnerSound.play();
+        }, 1500);
         return;
     }
     cardsChosen = [];
+}
+
+function sound(src) {
+    this.sound = document.createElement('audio');
+    this.sound.src = src;
+    this.sound.setAttribute('preload', 'auto');
+    this.sound.setAttribute('controls', 'none');
+    this.sound.style.display = 'none';
+    document.body.appendChild(this.sound);
+    this.play = function() {
+        this.sound.play();
+    }
+    this.pause = function() {
+        this.sound.pause();
+    }
 }
 
 start.addEventListener('click', (e) => {
