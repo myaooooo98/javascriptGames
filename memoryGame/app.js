@@ -51,6 +51,10 @@ const cardArray = [
 
 const grid = document.getElementById('grid');
 const resultDisplay = document.querySelector('#result');
+const start = document.getElementById('start');
+const content = document.querySelector('.content');
+const end = document.querySelector('.end');
+const restart = document.getElementById('restart');
 let cardsChosen = [];
 let score = 0;
 
@@ -98,12 +102,21 @@ function checkMatch() {
     }
 
     resultDisplay.textContent = score;
-    cardsChosen = [];
 
     if (score === 6) {
-        console.log('You found all match!');
+        end.classList.toggle('show');
         return;
     }
+    cardsChosen = [];
 }
 
-createBoard();
+start.addEventListener('click', (e) => {
+    content.classList.toggle('show');
+    e.target.closest('.play').style.display = 'none';
+    resultDisplay.textContent = '0';
+    createBoard();
+});
+
+restart.addEventListener('click', () => {
+    location.reload();
+});
