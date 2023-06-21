@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka&display=swap');
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Fredoka', sans-serif;
 }
 
 body {
@@ -118,11 +118,15 @@ div.end > div {
 #grid img {
     width: 200px;
     height: 200px;
-    transform: scale(1);
+    transform: scale(0.9);
     transition: transform .8s;
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
+}
+
+#grid img:hover {
+    transform: scale(1);
 }
 
 @keyframes match {
@@ -134,6 +138,10 @@ div.end > div {
         opacity: 0.7;
         filter: brightness(50%);
     }
+}
+
+.disabled {
+    pointer-events: none;
 }
 
 div.footer {
