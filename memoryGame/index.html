@@ -6,34 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./images/favicon.png">
 </head>
 <body>
     <div class="header">
         <h1>Memory Game</h1>
     </div>
     <div class="content show">
-        <div class="stats">
+        <div class="container">
             <button id="start">Start</button>
-            <div class="moves"></div>
-            <div class="timer"></div>
+            <div class="stats">
+                <div class="moves"></div>
+                <div class="timer"></div>
+            </div>
         </div>
 
-        <div id="grid"></div>
+        <div id="grid" class="disabled"></div>
     </div>
     <div class="end">
         <div class="show">
             <table class="records">
+                <caption>Records</caption>
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Player</th>
-                        <th>Moves</th>
-                        <th>Time Used</th>
+                        <th class="title player">Player</th>
+                        <th class="title">Moves</th>
+                        <th class="title">Time Used</th>
                     </tr>
                 </thead>
                 <tbody id="recordList"></tbody>
             </table>
-            <p>You Won</p>
             <button id="restart">Play Again</button>
         </div>
     </div>
@@ -46,6 +49,7 @@
     <a href="https://www.freepik.com/free-vector/different-style-wild-animal_13663515.htm#query=animal%20cartoon&position=22&from_view=search&track=ais">Image by jcomp</a> on Freepik -->
     <!-- Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=46134">Pixabay</a> -->
     <!-- Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=143027">UNIVERSFIELD</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=143027">Pixabay</a> -->
+    <!-- <a target="_blank" href="https://icons8.com/icon/s5Z1TPQ6ABY4/joy-con">Game</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
     <script src="./app.js"></script>
 </body>

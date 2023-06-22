@@ -14,78 +14,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-}
-
-div.header {
-    padding-top: 100px;
-    font-size: 1.5em;
-}
-
-#start {
-    border-radius: 20px;
-    border: none;
-    padding: 20px 40px;
-    box-shadow: 0 0 10px rgba(77, 240, 226, 1);
-    transform: scale(.9);
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    transition: transform .8s ease-in;
-    background-color: rgb(92, 221, 208);
-}
-
-#start:hover, #restart:hover {
-    transform: scale(1.1);
-    color: rgb(67, 179, 169);
-}
-
-#start:hover {
-    background-color: transparent;
-}
-
-div.content {
-    width: 1000px;
-    height: 1000px;
-    position: relative;
-}
-
-div.end {
-    width: 100%;
-    height: 100%;
-    display: none;
-    opacity: 0;
-    position: absolute;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-p {
-    padding: 50px 50px 30px;
-    font-size: 5em;
-}
-
-div.end > div {
-    background-color: rgba(203, 236, 234, 0.8);
-    padding: 50px;
-    border-radius: 50px;
-    margin-top: 100px;
-}
-
-#restart {
-    border-radius: 50px;
-    padding: 20px 50px;
-    box-shadow: 0 0 10px;
-    transform: scale(.9);
-    font-size: 1.5em;
-    text-align: center;
-    transition: transform .8s ease-in;
-    background-color: transparent;
-    margin: 20px;
-}
-
-#restart:hover {
-    background-color: white;
-    border: none;
+    background-color: rgb(48, 48, 48);
+    color: white;
 }
 
 .show {
@@ -96,13 +26,73 @@ div.end > div {
     justify-content: center;
 }
 
+.disabled {
+    pointer-events: none;
+}
+/* ---------------- Header --------------- */
+div.header {
+    padding-top: 70px;
+    font-size: 1.5em;
+}
+
+h1 {
+    font-size: 3em;
+    letter-spacing: 10px;
+}
+
+/* ---------------- Content --------------- */
+/* ---------------- Container --------------- */
+div.content {
+    width: 1000px;
+    height: 1000px;
+    position: relative;
+}
+
+div.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+div.stats {
+    font-size: 1.3em;
+}
+
+#start {
+    border-radius: 20px;
+    border: none;
+    padding: 25px 50px;
+    box-shadow: 0 0 10px rgba(77, 240, 226, 1);
+    transform: scale(.9);
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    transition: transform .8s ease-in;
+    background-color: rgb(92, 221, 208);
+    letter-spacing: 5px;
+    color: white;
+}
+
+#start:hover, #restart:hover {
+    transform: scale(1.1);
+    color: rgb(67, 179, 169);
+}
+
+#start:hover {
+    background-color: white;
+}
+
+/* ---------------- Grid --------------- */
 #grid {
     margin-top: 30px;
-    width: 815px;
-    height: 610px;
+    width: 855px;
+    height: 650px;
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
 #grid img {
@@ -113,10 +103,17 @@ div.end > div {
     animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
+    border-radius: 20px;
 }
 
 #grid img:hover {
     transform: scale(1);
+}
+
+#grid.disabled, #start.disabled {
+    filter: brightness(50%);
+    opacity: 0.7;
+    box-shadow: none;
 }
 
 @keyframes match {
@@ -130,10 +127,93 @@ div.end > div {
     }
 }
 
-.disabled {
-    pointer-events: none;
+/* ---------------- End --------------- */
+div.end {
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
+div.end > div {
+    width: 700px;
+    background-color: rgb(114, 168, 165);
+    padding: 50px;
+    border-radius: 50px;
+    margin-top: 100px;
+}
+
+table.records, td {
+    border: 1px solid;
+    font-size: 1.1em;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th.title.player {
+    width: 250px;
+}
+
+th.title {
+    width: 150px;
+}
+
+tr {
+    transform: scale(1);
+    transition: transform .5s ease-in-out;
+}
+
+th, tr:hover {
+    background-color: rgb(247, 238, 238);
+    color: rgb(67, 179, 169);
+    transform: scale(1.1);
+}
+
+th, td {
+    padding: 8px;
+}
+
+caption {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#restart {
+    border-radius: 50px;
+    padding: 20px 50px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    transform: scale(.9);
+    font-size: 1.5em;
+    text-align: center;
+    transition: transform .8s ease-in;
+    background-color: transparent;
+    margin-top: 50px;
+    color: white;
+    border: 1px solid white;
+}
+
+#restart:hover {
+    background-color: white;
+    border: none;
+}
+
+/* ---------------- Footer --------------- */
 div.footer {
     padding-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(89, 226, 215);
+    font-weight: bold;
+}
+
+a:hover {
+    color: rgb(67, 179, 169);
 }

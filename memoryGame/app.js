@@ -76,7 +76,7 @@ function createBoard() {
         card.addEventListener('click', flipCard);
         grid.appendChild(card);
     }
-    movesDisplay.textContent = `${moves} moves`;
+    movesDisplay.textContent = `Moves: ${moves} moves`;
     timerDisplay.textContent = `Time: ${totalTime} sec`;
 }
 
@@ -104,7 +104,7 @@ function checkMatch() {
     const cards = document.querySelectorAll('img');
 
     moves++
-    display(movesDisplay, moves);
+    movesDisplay.textContent = `Moves: ${moves} moves`;
 
     const firstCard = cardsChosen[0];
     const secondCard = cardsChosen[1];
@@ -161,16 +161,8 @@ function timer() {
     clearInterval(time);
     time = setInterval(() => {
         totalTime++
-        display(timerDisplay, totalTime);
+        timerDisplay.textContent = `Time: ${totalTime} sec`;
     }, 1000);
-}
-
-function display(ele, value) {
-    if (ele === movesDisplay) {
-        ele.textContent = `${value} moves`;
-    } else if (ele === timerDisplay) {
-        ele.textContent = `Time: ${value} sec`;
-    }
 }
 
 function playSound(src) {
@@ -180,6 +172,8 @@ function playSound(src) {
 
 start.addEventListener('click', (e) => {
     name = prompt("Enter you name!", "player");
+    grid.classList.remove('disabled');
+    start.classList.add('disabled');
     timer();
 });
 
