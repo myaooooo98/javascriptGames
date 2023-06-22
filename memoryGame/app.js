@@ -51,7 +51,6 @@ const cardArray = [
 
 const grid = document.getElementById('grid');
 const start = document.getElementById('start');
-const content = document.querySelector('.content');
 const end = document.querySelector('.end');
 const restart = document.getElementById('restart');
 const movesDisplay = document.querySelector('.moves');
@@ -70,24 +69,31 @@ let name;
 cardArray.sort(() => 0.5 - Math.random());
 
 function createBoard() {
-    for (let i = 0; i < cardArray.length; i++) {
+    for(let i = 0; i < cardArray.length; i++) {
         const card = document.createElement('img');
         card.setAttribute('src', 'images/blank.jpg');
         card.setAttribute('data-id', i);
         card.addEventListener('click', flipCard);
         grid.appendChild(card);
     }
+    movesDisplay.textContent = `${moves} moves`;
+    timerDisplay.textContent = `Time: ${totalTime} sec`;
 }
 
 function flipCard(e) {
-    let cardId = this.getAttribute('data-id');
-    cardsChosen.push({
-        name: cardArray[cardId].name,
-        cardId: cardId,
-    });
-    // change the image
-    this.setAttribute('src', cardArray[cardId].img);
+    const cardId = this.getAttribute('data-id');
+    const card = cardArray[cardId];
 
+    if (card && !this.classList.contains('disabled') && cardsChosen.length < 2) {
+        // change the image
+        this.setAttribute('src', card.img);
+        cardsChosen.push({
+            name: card.name,
+            cardId: cardId,
+        });
+        this.classList.add('disabled');
+
+    }
     // check the identical image
     if (cardsChosen.length === 2) {
         setTimeout(checkMatch, 500);
@@ -96,31 +102,32 @@ function flipCard(e) {
 
 function checkMatch() {
     const cards = document.querySelectorAll('img');
-    let soundEffect = new sound('./sound/correct.mp3');
-    let winnerSound = new sound('./sound/won.mp3');
 
     moves++
     display(movesDisplay, moves);
 
-    if (cardsChosen[0].name === cardsChosen[1].name) {
-        soundEffect.play();
-        cards[cardsChosen[0].cardId].style['animation-name'] = 'match';
-        cards[cardsChosen[1].cardId].style['animation-name'] = 'match';
-        cards[cardsChosen[0].cardId].classList.add('disabled');
-        cards[cardsChosen[1].cardId].classList.add('disabled');
-        cards[cardsChosen[0].cardId].removeEventListener('click', flipCard);
-        cards[cardsChosen[1].cardId].removeEventListener('click', flipCard);
+    const firstCard = cardsChosen[0];
+    const secondCard = cardsChosen[1];
+
+    if (firstCard.name === secondCard.name) {
+        playSound('./sound/correct.mp3')
+        cards[firstCard.cardId].style['animation-name'] = 'match';
+        cards[secondCard.cardId].style['animation-name'] = 'match';
+        cards[firstCard.cardId].removeEventListener('click', flipCard);
+        cards[secondCard.cardId].removeEventListener('click', flipCard);
         match++;
     } else {
-        cards[cardsChosen[0].cardId].setAttribute('src', 'images/blank.jpg');
-        cards[cardsChosen[1].cardId].setAttribute('src', 'images/blank.jpg');
+        cards[firstCard.cardId].setAttribute('src', 'images/blank.jpg');
+        cards[secondCard.cardId].setAttribute('src', 'images/blank.jpg');
+        cards[firstCard.cardId].classList.remove('disabled');
+        cards[secondCard.cardId].classList.remove('disabled');
     }
 
     if (match === 6) {
         clearInterval(time);
         setTimeout(function() {
             end.classList.toggle('show');
-            winnerSound.play();
+            playSound('./sound/won.mp3')
         }, 1500);
 
         const record = {
@@ -129,14 +136,7 @@ function checkMatch() {
             totalTime,
         };
         records.push(record);
-        let sortedRecords = records.sort((a, b) => {
-            if (a.moves > b.moves) return 1;
-            if (a.moves < b.moves) return -1;
-            if (a.moves === b.moves) {
-                return (a.totalTime > b.totalTime) ? 1 : (a.totalTime < b.totalTime) ? -1 : 0;
-            }
-        });
-        console.log(sortedRecords);
+        const sortedRecords = records.sort((a, b) => a.moves - b.moves || a.totalTime - b.totalTime);
         populateList(sortedRecords, recordList);
         localStorage.setItem('records', JSON.stringify(records));
         return;
@@ -165,39 +165,26 @@ function timer() {
     }, 1000);
 }
 
-function display(ele, i) {
+function display(ele, value) {
     if (ele === movesDisplay) {
-        ele.textContent = `${i} moves`;
+        ele.textContent = `${value} moves`;
     } else if (ele === timerDisplay) {
-        ele.textContent = `Time: ${i} sec`;
+        ele.textContent = `Time: ${value} sec`;
     }
 }
 
-function sound(src) {
-    this.sound = document.createElement('audio');
-    this.sound.src = src;
-    this.sound.setAttribute('preload', 'auto');
-    this.sound.setAttribute('controls', 'none');
-    this.sound.style.display = 'none';
-    document.body.appendChild(this.sound);
-    this.play = function() {
-        this.sound.play();
-    }
-    this.pause = function() {
-        this.sound.pause();
-    }
+function playSound(src) {
+   const sound = new Audio(src);
+   sound.play();
 }
 
 start.addEventListener('click', (e) => {
     name = prompt("Enter you name!", "player");
-    content.classList.toggle('show');
-    e.target.closest('.play').style.display = 'none';
-    movesDisplay.textContent = `${moves} moves`;
-    timerDisplay.textContent = `Time: ${totalTime} sec`;
-    createBoard();
     timer();
 });
 
 restart.addEventListener('click', () => {
     location.reload();
 });
+
+createBoard();
