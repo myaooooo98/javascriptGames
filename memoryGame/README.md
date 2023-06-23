@@ -1,7 +1,6 @@
 # Memory Game
 This is a browser-based game where players test their memory skills by flipping and matching pairs of cards. The objective is to match all the cards in the shortest number of moves and in the fastest time possible.
 
-[Live Demo]()
 
 ## Features
 - Dynamic card shuffling: The game randomly shuffles the cards for a unique experience in each playthrough.
@@ -23,9 +22,6 @@ git clone git@github.com:myaooooo98/javascriptGames.git
 ```
 2. Access to the folder **memoryGame**.
 3. Open the **index.html** file in web browser.
-
-
-Alternatively, you can directly access the [Live Demo]() to play the game.
 
 ## Usage
 1. Click the start button to initial the game.
